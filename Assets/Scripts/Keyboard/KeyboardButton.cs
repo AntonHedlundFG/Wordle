@@ -109,19 +109,20 @@ public class KeyboardButton : MonoBehaviour
     {
         Vector3 startScale = transform.localScale;
         float time = 0f;
+        float halfEffectTime = _pressEffectTime / 2;
 
-        while (time < _pressEffectTime / 2)
+        while (time < halfEffectTime)
         {
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
-            transform.localScale = Vector3.Lerp(startScale, startScale * _pressEffectModifier, 2 * time / _pressEffectTime);
+            transform.localScale = Vector3.Lerp(startScale, startScale * _pressEffectModifier, time / halfEffectTime);
         }
 
         while (time > 0)
         {
             yield return new WaitForEndOfFrame();
             time -= Time.deltaTime;
-            transform.localScale = Vector3.Lerp(startScale, startScale * _pressEffectModifier, 2 * time / _pressEffectTime);
+            transform.localScale = Vector3.Lerp(startScale, startScale * _pressEffectModifier, time / halfEffectTime);
         }
         transform.localScale = startScale;
 

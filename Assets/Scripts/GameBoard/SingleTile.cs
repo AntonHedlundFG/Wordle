@@ -66,19 +66,20 @@ public class SingleTile : MonoBehaviour
     {
         Vector3 startPosition = transform.position;
         float time = 0f;
+        float halfJiggleTime = jiggleTime / 2;
 
-        while (time < jiggleTime / 2)
+        while (time < halfJiggleTime)
         {
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, 2 * time / jiggleTime);
+            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, time / halfJiggleTime);
         }
 
         while (time > 0)
         {
             yield return new WaitForEndOfFrame();
             time -= Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, 2 * time / jiggleTime);
+            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, time / halfJiggleTime);
         }
         transform.position = startPosition;
         _jiggleRoutine = null;
