@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     private List<char> _currentGuess;
     private int _currentGuessLength = -1;
 
+    [SerializeField] private LineIndicators _lineIndicators;
+
     private void Start()
     {
         SetupStartMenu();
@@ -51,10 +53,16 @@ public class GameManager : MonoBehaviour
         _keyboardManager.ResetKeyboard(false);
 
         _targetWord = GetRandomWord();
-        _currentGuessAmount = 0;
+        SetCurrentGuessAmount(0);
         _currentGuessLength = 0;
         _currentGuess = new List<char>();
         KeyPressEvent.AddListener(OnGameInput);
+    }
+
+    private void SetCurrentGuessAmount(int amount)
+    {
+        _currentGuessAmount = amount;
+        _lineIndicators?.SetActiveRow(amount);
     }
 
     private void OnGameInput(string keyPressed)
@@ -85,7 +93,7 @@ public class GameManager : MonoBehaviour
         Wordle.Result[] result = Wordle.GuessResult(guessWord, _targetWord);
         _gameBoard.UpdateRow(_currentGuessAmount, answer, result);
         _keyboardManager.UpdateKeyboard(answer, result);
-        _currentGuessAmount++;
+        SetCurrentGuessAmount(_currentGuessAmount + 1);
 
         if (Wordle.IsWin(result))
         {
@@ -122,7 +130,7 @@ public class GameManager : MonoBehaviour
         {
             SetBoardMessage(new string[] { "The", "Word", "Was", _targetWord.ToString(), "Try", "Again"});
         }
-
+        SetCurrentGuessAmount(-1);
         KeyPressEvent.AddListener(StartNewGame);
     }
     private void SetupEndMenu(bool wonGame)

@@ -17,10 +17,32 @@ public class KeyboardButton : MonoBehaviour
     private KeyboardManager _keyboardEvents;
     private Wordle.Result _currentColor;
 
+    private KeyCode _keyCode;
+
     private void Awake()
     {
         _keyboardEvents = GetComponentInParent<KeyboardManager>();
         SetColor(Wordle.Result.Default);
+        switch (_key)
+        {
+            case "ENTER":
+                _keyCode = KeyCode.Return;
+                break;
+            case "BACK":
+                _keyCode = KeyCode.Backspace;
+                break;
+            default:
+                _keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), _key);
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(_keyCode))
+        {
+            _keyboardEvents?.KeyPress(_key);
+        }
     }
 
     private void Start()
