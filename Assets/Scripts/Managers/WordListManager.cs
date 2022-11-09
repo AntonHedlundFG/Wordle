@@ -45,6 +45,6 @@ public class WordListManager : MonoBehaviour
 
     public bool IsGuessAcceptable(List<char> guess)
     {
-        return _acceptableInputWordHash.Contains(new string(guess.ToArray()));
+        return (guess.Count == 5 &&_acceptableInputWordHash.Contains(new string(guess.ToArray())));
     }
 }

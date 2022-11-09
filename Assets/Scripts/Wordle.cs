@@ -83,6 +83,10 @@ public static class Wordle
 
     public static bool IsWin(Result[] results)
     {
+        if (results.Length != 5)
+        {
+            return false;
+        }
         for (int i = 0; i < results.Length; i++)
         {
             if (results[i] != Result.Correct)

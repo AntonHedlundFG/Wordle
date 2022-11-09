@@ -131,6 +131,8 @@ MonoBehaviour:
   _defaultColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
   _tileRenderer: {fileID: 6990874961831816600}
   _key: 0
+  _pressEffectTime: 0.2
+  _pressEffectModifier: 0.8
 --- !u!1 &6990874961992741563
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,19 +9,21 @@ public class KeyboardButton : MonoBehaviour
     [SerializeField] private Color _wrongTileColor;
     [SerializeField] private Color _correctColor;
     [SerializeField] private Color _defaultColor;
-
     [SerializeField] private SpriteRenderer _tileRenderer;
-
     [SerializeField] private string _key;
 
-    private KeyboardManager _keyboardEvents;
+    private KeyboardManager _keyboardManager;
     private Wordle.Result _currentColor;
 
     private KeyCode _keyCode;
 
+    [SerializeField][Range(0f, 0.5f)] private float _pressEffectTime = 0.1f;
+    [SerializeField][Range(0f, 1f)] private float _pressEffectModifier = 0.9f;
+    private Coroutine _pressedRoutine;
+
     private void Awake()
     {
-        _keyboardEvents = GetComponentInParent<KeyboardManager>();
+        _keyboardManager = GetComponentInParent<KeyboardManager>();
         SetColor(Wordle.Result.Default);
         switch (_key)
         {
@@ -41,22 +43,22 @@ public class KeyboardButton : MonoBehaviour
     {
         if (Input.GetKeyDown(_keyCode))
         {
-            _keyboardEvents?.KeyPress(_key);
+            InvokeKeyDown();
         }
     }
 
     private void Start()
     {
-        _keyboardEvents.KeyColorEvent?.AddListener(OnKeyColorChange);
+        _keyboardManager.KeyColorEvent?.AddListener(OnKeyColorChange);
     }
 
     private void OnDestroy()
     {
-        _keyboardEvents.KeyColorEvent?.RemoveListener(OnKeyColorChange);
+        _keyboardManager.KeyColorEvent?.RemoveListener(OnKeyColorChange);
     }
     private void OnMouseDown()
     {
-        _keyboardEvents?.KeyPress(_key);
+        InvokeKeyDown();
     }
 
     private void OnKeyColorChange(string key, Wordle.Result result, bool onlyUpgrade)
@@ -92,5 +94,38 @@ public class KeyboardButton : MonoBehaviour
                 return;
         }
         _currentColor = result;
+    }
+
+    private void InvokeKeyDown()
+    {
+        _keyboardManager?.KeyPress(_key);
+        if (_pressedRoutine == null)
+        {
+            _pressedRoutine = StartCoroutine(OnPressEffect());
+        }
+    }
+
+    private IEnumerator OnPressEffect()
+    {
+        Vector3 startScale = transform.localScale;
+        float time = 0f;
+
+        while (time < _pressEffectTime / 2)
+        {
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(startScale, startScale * _pressEffectModifier, 2 * time / _pressEffectTime);
+        }
+
+        while (time > 0)
+        {
+            yield return new WaitForEndOfFrame();
+            time -= Time.deltaTime;
+            transform.localScale = Vector3.Lerp(startScale, startScale * _pressEffectModifier, 2 * time / _pressEffectTime);
+        }
+        transform.localScale = startScale;
+
+        _pressedRoutine = null;
+        yield return null;
     }
 }

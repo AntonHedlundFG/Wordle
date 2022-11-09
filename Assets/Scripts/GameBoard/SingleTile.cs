@@ -71,14 +71,14 @@ public class SingleTile : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, time / jiggleTime);
+            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, 2 * time / jiggleTime);
         }
 
         while (time > 0)
         {
             yield return new WaitForEndOfFrame();
             time -= Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, time / jiggleTime);
+            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, 2 * time / jiggleTime);
         }
         transform.position = startPosition;
         _jiggleRoutine = null;
