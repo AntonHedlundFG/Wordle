@@ -54,4 +54,11 @@ public class TileRow : MonoBehaviour
         }
     }
 
+    public void JiggleRow(float jiggleTime)
+    {
+        foreach (SingleTile tile in _tiles)
+        {
+            tile.JiggleTile(jiggleTime);
+        }
+    }
 }

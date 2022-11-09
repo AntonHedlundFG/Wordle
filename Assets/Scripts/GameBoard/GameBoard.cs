@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
-    [SerializeField] TileRow[] _tileRows;
+    [SerializeField] private TileRow[] _tileRows;
+    [SerializeField] private float _tileJiggleTime = 0.1f;
 
     public void ResetBoard()
     {
@@ -58,6 +59,11 @@ public class GameBoard : MonoBehaviour
         {
             UpdateRow(i, text[i]);
         }
+    }
+
+    public void JiggleRow(int row)
+    {
+        _tileRows[row].JiggleRow(_tileJiggleTime);
     }
 
 }

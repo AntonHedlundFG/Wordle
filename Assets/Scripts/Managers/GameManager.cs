@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
                 if (_wordListManager.IsGuessAcceptable(_currentGuess))
                 {
                     TryGuess(new string(_currentGuess.ToArray()));
+                } else
+                {
+                    _gameBoard.JiggleRow(_currentGuessAmount);
                 }
                 break;
             default:

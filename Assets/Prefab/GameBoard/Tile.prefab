@@ -136,6 +136,8 @@ MonoBehaviour:
   _correctColor: {r: 0.039159846, g: 0.754717, b: 0.16104892, a: 1}
   _tileRenderer: {fileID: 499951631270283484}
   _text: {fileID: 5507586533583994311}
+  _jiggleDuration: 1
+  _jiggleDistance: {x: 0, y: 0.2, z: 0}
 --- !u!1 &4337573822710170607
 GameObject:
   m_ObjectHideFlags: 0

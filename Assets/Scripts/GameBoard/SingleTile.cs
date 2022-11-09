@@ -13,6 +13,11 @@ public class SingleTile : MonoBehaviour
     [SerializeField] private SpriteRenderer _tileRenderer;
     [SerializeField] private TMP_Text _text;
 
+    [SerializeField] private Vector3 _jiggleDistance;
+    private Coroutine _jiggleRoutine;
+    
+    
+
     private void Awake()
     {
         SetColor(Wordle.Result.Wrong);
@@ -49,4 +54,33 @@ public class SingleTile : MonoBehaviour
         SetColor(Wordle.Result.Wrong);
     }
 
+    public void JiggleTile(float jiggleTime)
+    {
+        if (_jiggleRoutine == null)
+        {
+            _jiggleRoutine = StartCoroutine(JiggleAnim(jiggleTime));
+        }
+    }
+
+    private IEnumerator JiggleAnim(float jiggleTime)
+    {
+        Vector3 startPosition = transform.position;
+        float time = 0f;
+
+        while (time < jiggleTime / 2)
+        {
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, time / jiggleTime);
+        }
+
+        while (time > 0)
+        {
+            yield return new WaitForEndOfFrame();
+            time -= Time.deltaTime;
+            transform.position = Vector3.Lerp(startPosition, startPosition + _jiggleDistance, time / jiggleTime);
+        }
+        transform.position = startPosition;
+        _jiggleRoutine = null;
+    }
 }
