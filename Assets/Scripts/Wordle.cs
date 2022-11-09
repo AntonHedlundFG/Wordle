@@ -93,7 +93,7 @@ public static class Wordle
         return true;
     }
 
-    public static Word GetRandomWord()
+    /*public static Word GetRandomWord()
     {
         int randomInt = Random.Range(0, 5);
         string randomString;
@@ -117,5 +117,5 @@ public static class Wordle
         }
 
         return new Word(randomString);
-    }
+    }*/
 }

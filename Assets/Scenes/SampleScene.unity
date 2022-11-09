@@ -305,6 +305,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameBoard: {fileID: 421232042}
+  _targetWordFile: {fileID: 4900000, guid: 31be4cc5c28849046ab5f1e5934cae71, type: 3}
+  _acceptableInputWordFile: {fileID: 4900000, guid: f5d3b30f74f7f3748ae791397c1d0809, type: 3}
 --- !u!4 &1110462066
 Transform:
   m_ObjectHideFlags: 0

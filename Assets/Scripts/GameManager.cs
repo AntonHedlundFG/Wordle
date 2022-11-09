@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,8 +8,12 @@ public class GameManager : MonoBehaviour
 {
     public UnityEvent<string> KeyPressEvent { get; private set; } = new UnityEvent<string>();
     [SerializeField] private GameBoard _gameBoard;
-
     private KeyboardManager _keyboardManager;
+
+    [SerializeField] private TextAsset _targetWordFile;
+    [SerializeField] private TextAsset _acceptableInputWordFile;
+    private string[] _targetWordList;
+    private HashSet<string> _acceptableInputWordHash;
 
     private Wordle.Word _targetWord;
     private int _currentGuessAmount = -1;
@@ -45,7 +50,7 @@ public class GameManager : MonoBehaviour
         _gameBoard.ResetBoard();
         _keyboardManager.ResetKeyboard(false);
 
-        _targetWord = Wordle.GetRandomWord();
+        _targetWord = GetRandomWord();
         _currentGuessAmount = 0;
         _currentGuessLength = 0;
         _currentGuess = new List<char>();
@@ -68,7 +73,10 @@ public class GameManager : MonoBehaviour
         }
         if (keyPressed == "ENTER" && _currentGuessLength == 5)
         {
-            TestAnswer(new string(_currentGuess.ToArray()));
+            if (IsGuessAcceptable(_currentGuess))
+            {
+                TestAnswer(new string(_currentGuess.ToArray()));
+            }
         }
     }
     private void TestAnswer(string answer)
@@ -102,7 +110,14 @@ public class GameManager : MonoBehaviour
 
         if(wonGame)
         {
-            SetBoardMessage(new string[] { "You", "Won", "", IntToText(numberOfGuesses), "Tries", "" });
+            SetBoardMessage(new string[] { "", "You", "Won", "", IntToText(numberOfGuesses), "Tries" });
+            if (numberOfGuesses == 1)
+            {
+                _gameBoard.UpdateRow(5, "Try");
+            }
+            Wordle.Result[] result = Wordle.GuessResult(_targetWord, _targetWord);
+            _gameBoard.UpdateRow(0, _targetWord.ToString(), result);
+
         } else
         {
             SetBoardMessage(new string[] { "The", "Word", "Was", _targetWord.ToString(), "Try", "Again"});
@@ -143,5 +158,37 @@ public class GameManager : MonoBehaviour
         {
             _gameBoard.UpdateRow(i, text[i]);
         }
+    }
+
+    private Wordle.Word GetRandomWord()
+    {
+        if (_targetWordList == null)
+        {
+            string[] targetWords = _targetWordFile.text.Split("\n");
+            for (int i = 0; i < targetWords.Length; i++)
+            {
+                targetWords[i] = targetWords[i].Substring(0, Mathf.Min(5, targetWords[i].Length));
+            }
+            _targetWordList = targetWords;
+        }
+        if (_acceptableInputWordHash == null)
+        {
+            string[] _acceptableWords = _acceptableInputWordFile.text.Split("\n");
+            for (int i = 0; i < _acceptableWords.Length; i++)
+            {
+                _acceptableWords[i] = _acceptableWords[i].Substring(0, Mathf.Min(5, _acceptableWords[i].Length));
+            }
+            _acceptableInputWordHash = _acceptableWords.ToHashSet();
+        }
+
+        string targetWord = _targetWordList[Random.Range(0, _targetWordList.Length)];
+        return new Wordle.Word(targetWord);
+    }
+
+    private bool IsGuessAcceptable(List<char> guess)
+    {
+
+        return _acceptableInputWordHash.Contains(new string(guess.ToArray()));
+        
     }
 }
