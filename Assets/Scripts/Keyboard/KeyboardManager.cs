@@ -8,19 +8,12 @@ public class KeyboardManager : MonoBehaviour
     public UnityEvent<string, Wordle.Result, bool> KeyColorEvent { get; private set; }
     [SerializeField] private GameManager _gameManager;
 
-
-    private void Update()
-    {
-        
-    }
-
     private void Awake()
     {
         if (KeyColorEvent == null)
         {
             KeyColorEvent = new UnityEvent<string, Wordle.Result, bool>();
         }
-        _gameManager?.SetKeyboardManager(this);
     }
     public void KeyPress(string key)
     {

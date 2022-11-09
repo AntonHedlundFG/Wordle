@@ -93,29 +93,24 @@ public static class Wordle
         return true;
     }
 
-    /*public static Word GetRandomWord()
+    public static string IntToText(int number)
     {
-        int randomInt = Random.Range(0, 5);
-        string randomString;
-        switch (randomInt)
+        switch (number)
         {
-            case 0:
-                randomString = "HELLO";
-                break;
             case 1:
-                randomString = "BLOOP";
-                break;
+                return "One";
             case 2:
-                randomString = "PEACH";
-                break;
+                return "Two";
             case 3:
-                randomString = "MOUNT";
-                break;
+                return "Three";
+            case 4:
+                return "Four";
+            case 5:
+                return "Five";
+            case 6:
+                return "Six";
             default:
-                randomString = "PLEAD";
-                break;
+                return "";
         }
-
-        return new Word(randomString);
-    }*/
+    }
 }

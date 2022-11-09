@@ -47,6 +47,17 @@ public class GameBoard : MonoBehaviour
         }
         UpdateRow(row, word, results);
     }
-
+    public void UpdateRow(int row, List<char> word)
+    {
+        string wordString = new string(word.ToArray());
+        UpdateRow(row, wordString);
+    }
+    public void SetBoardMessage(string[] text)
+    {
+        for (int i = 0; i < text.Length && i < _tileRows.Length; i++)
+        {
+            UpdateRow(i, text[i]);
+        }
+    }
 
 }
