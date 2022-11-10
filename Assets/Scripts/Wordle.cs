@@ -55,6 +55,7 @@ public static class Wordle
 
         char[] guessWord = guess.GetWord();
         char[] targetWord = target.GetWord();
+        bool[] marked = new bool[5]; //Used to make sure we don't get both a green and yellow marker for a letter that shows up once.
 
         Result[] returnArray = new Result[5];
 
@@ -63,16 +64,19 @@ public static class Wordle
             if (targetWord[i] == guessWord[i])
             {
                 returnArray[i] = Result.Correct;
+                marked[i] = true;
                 continue;
             }
-
             returnArray[i] = Result.Wrong;
-
+        }
+        for (int i = 0; i < 5; i++)
+        {
             for (int j = 0; j < 5; j++)
             {
-                if (targetWord[j] == guessWord[i])
+                if (targetWord[j] == guessWord[i] && !marked[j])
                 {
                     returnArray[i] = Result.WrongSpot;
+                    marked[j] = true;
                     continue;
                 }
             }
