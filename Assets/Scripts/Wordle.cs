@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
 
 public static class Wordle
@@ -55,7 +52,7 @@ public static class Wordle
 
         char[] guessWord = guess.GetWord();
         char[] targetWord = target.GetWord();
-        bool[] marked = new bool[5]; //Used to make sure we don't get both a green and yellow marker for a letter that shows up once.
+        bool[] marked = new bool[5]; //Used to make sure we don't get both a green and yellow marker for a letter that shows up once, such as guessing THERE if answer is GLARE. (First E is NOT yellow)
 
         Result[] returnArray = new Result[5];
 
@@ -87,7 +84,7 @@ public static class Wordle
 
     public static bool IsWin(Result[] results)
     {
-        if (results.Length != 5)
+        if (results == null || results.Length != 5)
         {
             return false;
         }

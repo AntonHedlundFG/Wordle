@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -9,7 +7,7 @@ public class TileRow : MonoBehaviour
 
     public void WriteWord(string writeString)
     {
-        if(!Regex.IsMatch(writeString, @"^[a-zA-Z]+$"))
+        if(writeString.Length > 5 || !Regex.IsMatch(writeString, @"^[a-zA-Z]+$"))
         {
             return;
         }

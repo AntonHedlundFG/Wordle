@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -109,7 +107,7 @@ public class GameManager : MonoBehaviour
 
         if(wonGame)
         {
-            _gameBoard.SetBoardMessage(new string[] { "", "You", "Won", "", Wordle.IntToText(numberOfGuesses), "Tries" });
+            _gameBoard.SetBoardMessage(new string[] { "", "You", "Won", "In", Wordle.IntToText(numberOfGuesses), "Tries" });
             if (numberOfGuesses == 1)
             {
                 _gameBoard.UpdateRow(5, "Try");

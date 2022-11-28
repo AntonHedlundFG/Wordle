@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class KeyboardManager : MonoBehaviour
 {
-    public UnityEvent<string, Wordle.Result, bool> KeyColorEvent { get; private set; }
+    public UnityEvent<string, Wordle.Result, bool> KeyColorEvent { get; private set; } //The boolean is used to decide if the colorchange is limited to only upgrade the color of the key, according to the Enum values.
     [SerializeField] private GameManager _gameManager;
 
     private void Awake()

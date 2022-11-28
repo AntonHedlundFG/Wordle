@@ -465,6 +465,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5996623120353593802, guid: 65c2b993be962dc4b80e17fca49dc2fc, type: 3}
+      propertyPath: _acceptableGuessWordFile
+      value: 
+      objectReference: {fileID: 4900000, guid: f5d3b30f74f7f3748ae791397c1d0809, type: 3}
     - target: {fileID: 5996623120353593803, guid: 65c2b993be962dc4b80e17fca49dc2fc, type: 3}
       propertyPath: m_Name
       value: WordListManager
